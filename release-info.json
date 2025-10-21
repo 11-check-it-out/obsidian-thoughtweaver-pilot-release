@@ -1,0 +1,8 @@
+{
+  "version": "1.6.5",
+  "buildType": "initial",
+  "buildDate": "2024-01-15T10:30:00.000Z",
+  "buildCommit": "initial-setup",
+  "buildBranch": "main",
+  "description": "Initial release repository setup"
+}
