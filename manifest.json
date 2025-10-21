@@ -1,0 +1,10 @@
+{
+	"id": "thoughtweaver-pilot",
+	"name": "ThoughtWeaver Pilot",
+	"version": "1.6.6",
+	"minAppVersion": "0.15.0",
+	"description": "一个根据KG笔记法，辅助创建和链接概念笔记与关系笔记并对笔记进行管理的插件。",
+	"author": "睿悠ryooo",
+	"authorUrl": "",
+	"isDesktopOnly": false
+}

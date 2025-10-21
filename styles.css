@@ -1,0 +1,1524 @@
+/*
+ * ThoughtWeaver Pilot - 统一样式系统
+ * 
+ * 使用 twp- 前缀避免与 Obsidian 原生样式冲突
+ * 采用模块化设计，便于维护和扩展
+ */
+
+/* ========================================
+   CSS 变量系统
+   ======================================== */
+
+:root {
+  /* 间距系统 */
+  --twp-spacing-xs: 0.25rem;    /* 4px */
+  --twp-spacing-sm: 0.5rem;     /* 8px */
+  --twp-spacing-md: 1rem;       /* 16px */
+  --twp-spacing-lg: 1.5rem;     /* 24px */
+  --twp-spacing-xl: 2rem;       /* 32px */
+  --twp-spacing-2xl: 3rem;      /* 48px */
+  
+  /* 圆角系统 */
+  --twp-radius-sm: 4px;
+  --twp-radius-md: 8px;
+  --twp-radius-lg: 12px;
+  --twp-radius-xl: 16px;
+  
+  /* 阴影系统 */
+  --twp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --twp-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --twp-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --twp-shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.12);
+  
+  /* 过渡动画 */
+  --twp-transition-fast: 0.1s ease;
+  --twp-transition-normal: 0.2s ease;
+  --twp-transition-slow: 0.3s ease;
+  
+  /* 字体大小 */
+  --twp-text-xs: 0.75rem;       /* 12px */
+  --twp-text-sm: 0.875rem;      /* 14px */
+  --twp-text-base: 1rem;        /* 16px */
+  --twp-text-lg: 1.125rem;      /* 18px */
+  --twp-text-xl: 1.25rem;       /* 20px */
+  --twp-text-2xl: 1.5rem;       /* 24px */
+  --twp-text-3xl: 1.875rem;     /* 30px */
+}
+
+/* ========================================
+   基础组件系统
+   ======================================== */
+
+/* 模态框基础样式 */
+.twp-modal {
+  padding: var(--twp-spacing-lg);
+  max-width: min(600px, 90vw);
+  width: auto;
+  box-sizing: border-box;
+  background: transparent;
+  position: relative;
+}
+
+/* 覆盖Obsidian原生modal容器的宽度设置 */
+.modal:has(.twp-modal) {
+  width: auto !important;
+  max-width: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* 覆盖Obsidian原生modal-content的宽度设置 */
+.modal:has(.twp-modal) .modal-content {
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+  display: inline-block !important;
+}
+
+/* 确保关闭按钮始终可点击 */
+.modal:has(.twp-modal) .modal-close-button {
+  z-index: 1001 !important;
+  pointer-events: auto !important;
+}
+
+.twp-modal.compact {
+  padding: var(--twp-spacing-md);
+  max-width: min(350px, 80vw);
+  min-width: min(250px, 60vw);
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+    align-items: center;
+  text-align: center;
+}
+
+.twp-modal * {
+  box-sizing: border-box;
+}
+
+/* 模态框头部 */
+.twp-modal-header {
+  margin-bottom: var(--twp-spacing-lg);
+  padding-bottom: var(--twp-spacing-md);
+  border-bottom: 2px solid color-mix(in srgb, var(--text-accent) 20%, var(--background-modifier-border));
+}
+
+.twp-modal-title {
+  margin: 0;
+  font-size: var(--twp-text-2xl);
+    font-weight: 600;
+  color: var(--text-normal);
+    display: flex;
+    align-items: center;
+  gap: var(--twp-spacing-sm);
+    letter-spacing: 0.3px;
+}
+
+.twp-modal-title.compact {
+  font-size: var(--twp-text-xl);
+  margin-bottom: var(--twp-spacing-sm);
+}
+
+.twp-modal-title .twp-icon {
+    font-size: 1.3em;
+    opacity: 0.9;
+}
+
+/* 模态框主体 */
+.twp-modal-body {
+  margin-bottom: var(--twp-spacing-lg);
+  flex: 1;
+}
+
+/* 模态框底部 */
+.twp-modal-footer {
+  display: flex;
+  gap: var(--twp-spacing-md);
+  justify-content: flex-end;
+  padding-top: var(--twp-spacing-md);
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.twp-modal-footer.compact {
+  flex-direction: column;
+  gap: var(--twp-spacing-sm);
+  margin-top: var(--twp-spacing-sm);
+}
+
+/* 按钮系统 */
+.twp-button {
+  padding: var(--twp-spacing-sm) var(--twp-spacing-lg);
+  border-radius: var(--twp-radius-md);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-ui-medium);
+    font-weight: 500;
+  transition: all var(--twp-transition-normal);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--twp-spacing-sm);
+  letter-spacing: 0.3px;
+}
+
+.twp-button.primary {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+    font-weight: 500;
+}
+
+.twp-button.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--twp-shadow-md);
+}
+
+.twp-button.secondary {
+    background: var(--background-primary);
+  color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.twp-button.secondary:hover {
+  background: var(--background-modifier-hover);
+  opacity: 0.8;
+}
+
+.twp-button.small {
+  padding: var(--twp-spacing-xs) var(--twp-spacing-md);
+  font-size: var(--font-ui-small);
+  min-height: 36px;
+  border-radius: var(--twp-radius-sm);
+    font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.twp-button:hover {
+  transform: translateY(-1px);
+}
+
+/* 卡片系统 */
+.twp-card {
+    border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-md);
+  padding: var(--twp-spacing-md);
+  background: var(--background-primary);
+    cursor: pointer;
+  transition: all var(--twp-transition-normal);
+  margin-bottom: var(--twp-spacing-sm);
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: visible;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.twp-card:hover {
+    transform: translateY(-2px);
+  box-shadow: var(--twp-shadow-lg);
+}
+
+.twp-card.selected {
+    border: 2px solid var(--interactive-accent);
+  background: var(--background-modifier-hover);
+    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.2);
+}
+
+.twp-card-header {
+  margin-bottom: var(--twp-spacing-sm);
+}
+
+.twp-card-title {
+  font-size: var(--twp-text-lg);
+    font-weight: 600;
+    color: var(--text-normal);
+  margin: 0 0 var(--twp-spacing-sm) 0;
+  line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    max-width: 100%;
+    min-height: fit-content;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.twp-card-title.medium {
+  font-size: var(--twp-text-base);
+    font-weight: 500;
+  margin-bottom: var(--twp-spacing-sm);
+    line-height: 1.4;
+}
+
+.twp-card-content {
+    color: var(--text-muted);
+    font-size: var(--font-ui-small);
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    flex: 1;
+    margin: 0;
+    overflow-y: auto;
+    max-height: 4.5em;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 4px;
+}
+
+/* 推荐标签 */
+.twp-recommendation-badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: var(--font-ui-small);
+  font-weight: 500;
+  z-index: 1;
+}
+
+/* 主要建议卡片增加顶部间距以避免推荐标签被遮挡 */
+.main-classification-card,
+.main-suggestion-card {
+  margin-top: 12px;
+}
+
+/* 表单系统 */
+.twp-form-group {
+  margin-bottom: var(--twp-spacing-md);
+  padding: var(--twp-spacing-sm) 0;
+}
+
+.twp-form-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.twp-form-label {
+  display: block;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--text-normal) 90%, var(--text-accent));
+  margin-bottom: var(--twp-spacing-xs);
+  font-size: 1.02em;
+  letter-spacing: 0.1px;
+}
+
+.twp-form-description {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin-bottom: var(--twp-spacing-sm);
+  margin-top: 0;
+}
+
+.twp-input {
+  width: 100%;
+  min-width: 0;
+  padding: var(--twp-spacing-sm) var(--twp-spacing-md);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-sm);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: var(--font-ui-medium);
+  outline: none;
+  transition: border-color var(--twp-transition-normal);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.twp-input:focus {
+    border-color: var(--interactive-accent);
+}
+
+.twp-input.error {
+  border-color: var(--text-error);
+}
+
+
+/* 输入容器 */
+.twp-input-container {
+    position: relative;
+  margin-bottom: var(--twp-spacing-lg);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.twp-input-wrapper {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* 建议容器 */
+.twp-suggestion-container {
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-sm);
+  background: var(--background-primary);
+    position: relative;
+    z-index: 10;
+}
+
+.twp-suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.twp-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.twp-suggestion-item:hover {
+  background: var(--background-modifier-hover);
+}
+
+/* 路径候选建议容器 */
+.twp-path-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: var(--twp-radius-sm);
+    background: var(--background-primary);
+    box-shadow: var(--twp-shadow-lg);
+    z-index: 1000;
+    margin-top: 4px;
+    box-sizing: border-box;
+    /* 优化滚动行为 */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 优化滚动条样式 */
+.twp-path-suggestions::-webkit-scrollbar {
+    width: 8px;
+}
+
+.twp-path-suggestions::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--background-modifier-border) 20%, transparent);
+    border-radius: var(--twp-radius-sm);
+}
+
+.twp-path-suggestions::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--text-muted) 40%, transparent);
+    border-radius: var(--twp-radius-sm);
+    transition: background var(--twp-transition-normal);
+}
+
+.twp-path-suggestions::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--text-muted) 60%, transparent);
+}
+
+.twp-path-suggestions .twp-suggestion-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid color-mix(in srgb, var(--background-modifier-border) 50%, transparent);
+    font-size: var(--twp-text-sm);
+    transition: background var(--twp-transition-fast);
+}
+
+.twp-path-suggestions .twp-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.twp-path-suggestions .twp-suggestion-item:hover {
+    background: var(--background-modifier-hover);
+}
+
+.twp-path-suggestions .twp-suggestion-item.selected {
+    background: color-mix(in srgb, var(--interactive-accent) 15%, var(--background-primary));
+    color: var(--text-accent);
+}
+
+/* 候选数量提示 */
+.twp-suggestion-count {
+    padding: 8px 14px;
+    text-align: center;
+    font-size: var(--twp-text-xs);
+    color: var(--text-muted);
+    background: color-mix(in srgb, var(--background-secondary) 50%, var(--background-primary));
+    border-top: 1px solid var(--background-modifier-border);
+    position: sticky;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* 内容容器 */
+.twp-content-container {
+    text-align: center;
+    width: 100%;
+}
+
+/* 设置项样式 */
+.twp-setting-item {
+  margin-top: var(--twp-spacing-sm);
+    margin-bottom: 0;
+}
+
+/* ========================================
+   功能模块样式
+   ======================================== */
+
+/* AI 推理样式 */
+.twp-ai-reasoning {
+  margin: var(--twp-spacing-md) 0;
+  padding: var(--twp-spacing-md);
+  background: var(--background-secondary);
+  border-radius: var(--twp-radius-sm);
+    border-left: 4px solid var(--interactive-accent);
+}
+
+.twp-suggested-note {
+  margin: var(--twp-spacing-md) 0;
+  padding: var(--twp-spacing-md);
+  background: var(--background-secondary);
+  border-radius: var(--twp-radius-sm);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.twp-note-title {
+    font-weight: 600;
+    color: var(--text-accent);
+    margin-bottom: 4px;
+}
+
+.twp-note-summary {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* 原始标题样式 */
+.twp-original-title {
+  font-size: var(--twp-text-lg);
+    font-weight: 600;
+    color: var(--text-accent);
+  margin-bottom: var(--twp-spacing-sm);
+  padding: var(--twp-spacing-md);
+  background: var(--background-secondary);
+  border-radius: var(--twp-radius-sm);
+    border-left: 4px solid var(--interactive-accent);
+}
+
+/* 别名列表样式 */
+.twp-alias-list {
+    display: flex;
+    flex-direction: column;
+  gap: var(--twp-spacing-sm);
+  margin-top: var(--twp-spacing-sm);
+}
+
+.twp-alias-item {
+    display: flex;
+    align-items: center;
+  gap: var(--twp-spacing-md);
+  padding: var(--twp-spacing-md);
+    border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-sm);
+  background: var(--background-primary);
+    cursor: pointer;
+  transition: all var(--twp-transition-normal);
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    min-height: 50px; /* 恢复正常高度 */
+}
+
+/* 别名项中的遮挡条样式优化 - 图标和文字在一行 */
+.twp-alias-item[style*="position: relative"] {
+    min-height: 50px; /* 保持正常高度 */
+}
+
+.twp-alias-item[style*="position: relative"] > div:last-child {
+    /* 遮挡条样式优化 - 水平布局 */
+    padding: 8px 12px;
+    min-height: 50px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+.twp-alias-item[style*="position: relative"] > div:last-child > div:first-child {
+    /* 锁定图标样式 */
+    font-size: 1.2rem !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.twp-alias-item[style*="position: relative"] > div:last-child > div:last-child {
+    /* 解锁文字样式 */
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    word-break: keep-all !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+.twp-alias-item:hover {
+  background: var(--background-modifier-hover);
+    border-color: var(--interactive-accent);
+}
+
+.twp-alias-item.selected {
+  background: var(--background-modifier-hover);
+    border-color: var(--interactive-accent);
+    box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.2);
+}
+
+.twp-alias-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--interactive-accent);
+    cursor: pointer;
+}
+
+.twp-alias-label {
+    flex: 1;
+  font-size: var(--twp-text-base);
+    color: var(--text-normal);
+    cursor: pointer;
+    user-select: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* 模板选项按钮 */
+.twp-template-option-button {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-sm);
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.2rem;
+  background: var(--background-primary);
+  cursor: pointer;
+  transition: all var(--twp-transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  width: auto;
+  min-width: 200px;
+  overflow: hidden;
+}
+
+.twp-template-option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--twp-shadow-lg);
+}
+
+.twp-template-option-button.selected {
+  background: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--twp-shadow-lg);
+}
+
+.twp-template-option-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.twp-template-option-name {
+  font-weight: 500;
+  font-size: var(--twp-text-base);
+  color: var(--text-normal);
+  flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.twp-template-option-button.selected .twp-template-option-name {
+  color: var(--text-on-accent);
+}
+
+/* AI别名模态框特殊样式 */
+.twp-alias-modal {
+  max-width: 500px;
+}
+
+.twp-alias-modal .twp-modal {
+  max-width: 500px;
+  max-height: none; /* 移除高度限制，确保内容完整显示 */
+}
+
+/* 覆盖Obsidian原生modal-content的宽度设置 - 别名Modal */
+.modal:has(.twp-alias-modal) .modal-content {
+  max-width: 500px !important;
+}
+
+/* AI别名Modal微调 - 保持与其他Modal一致 */
+.twp-alias-modal .twp-card-content {
+  font-size: var(--font-ui-medium); /* 稍微增大推理文字 */
+  line-height: 1.5; /* 改善行间距 */
+}
+
+.twp-alias-modal .twp-alias-item {
+  padding: var(--twp-spacing-sm) var(--twp-spacing-md); /* 稍微减小内边距 */
+}
+
+/* 许可证模态框特殊样式 */
+.twp-license-modal {
+  max-width: 500px;
+}
+
+.twp-license-modal .twp-modal {
+  padding: 20px;
+}
+
+.twp-license-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 0 20px 0;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--text-accent);
+  padding: 0;
+  border-bottom: 2px solid color-mix(in srgb, var(--text-accent) 20%, var(--background-modifier-border));
+  letter-spacing: 0.3px;
+}
+
+.twp-license-title .twp-icon {
+  font-size: 1.3em;
+  opacity: 0.9;
+}
+
+/* 帮助设置项样式 */
+.twp-help-setting-item {
+  background: color-mix(in srgb, var(--background-secondary) 60%, var(--background-primary));
+  border: 1px solid color-mix(in srgb, var(--background-modifier-border) 80%, var(--background-primary));
+  border-radius: var(--twp-radius-md);
+  padding: var(--twp-spacing-md);
+  margin: var(--twp-spacing-sm) 0;
+}
+
+.twp-help-setting-item .twp-form-label {
+  color: var(--text-accent);
+  font-weight: 600;
+}
+
+.twp-help-setting-item .twp-form-description {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* 设置页面样式 */
+.twp-settings-container {
+  background: var(--background-primary);
+  padding: var(--twp-spacing-2xl);
+  max-width: 900px;
+  margin: 0;
+  border: 0;
+}
+
+.twp-settings-section-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 20px 0 14px 0;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--text-accent);
+  padding: 10px 0;
+  border-bottom: 2px solid color-mix(in srgb, var(--text-accent) 20%, var(--background-modifier-border));
+  letter-spacing: 0.3px;
+}
+
+.twp-settings-section-header .twp-icon {
+  font-size: 1.3em;
+  opacity: 0.9;
+}
+
+.twp-settings-section-container {
+  padding: var(--twp-spacing-md);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--twp-radius-lg);
+  margin-bottom: 18px;
+  background: color-mix(in srgb, var(--background-secondary) 70%, var(--background-primary));
+  box-shadow: var(--twp-shadow-md);
+}
+
+.twp-tech-section-bg {
+  background: color-mix(in srgb, var(--background-secondary) 70%, var(--background-primary));
+}
+
+/* 状态标题特殊样式 */
+.twp-form-label.status-title {
+  font-weight: 700 !important;
+  position: relative !important;
+  margin-bottom: 6px !important;
+}
+
+.twp-form-label.status-title.activated {
+  color: var(--text-accent) !important;
+  background: color-mix(in srgb, var(--text-accent) 8%, var(--background-primary));
+  padding: 4px 8px;
+  border-radius: var(--twp-radius-sm);
+  border: 1px solid color-mix(in srgb, var(--text-accent) 20%, transparent);
+  position: relative;
+  display: inline-block;
+}
+
+.twp-form-label.status-title.trial {
+  color: color-mix(in srgb, var(--text-accent) 80%, var(--text-normal)) !important;
+  background: color-mix(in srgb, var(--text-accent) 12%, var(--background-primary));
+  padding: 4px 8px;
+  border-radius: var(--twp-radius-sm);
+  border: 1px solid color-mix(in srgb, var(--text-accent) 25%, transparent);
+  position: relative;
+  display: inline-block;
+  box-shadow: var(--twp-shadow-sm);
+  overflow: hidden;
+}
+
+.twp-form-label.status-title.trial::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text-accent) 15%, transparent), transparent);
+  animation: subtle-shimmer 4s infinite;
+}
+
+@keyframes subtle-shimmer {
+  0% { left: -100%; }
+  25% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* 状态描述特殊样式 */
+.twp-form-description.status-description {
+  margin-top: 4px;
+        font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* 支持链接样式 */
+.twp-form-description.status-description a {
+  color: var(--text-accent);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-accent) 30%, transparent);
+  transition: all var(--twp-transition-normal);
+}
+
+.twp-form-description.status-description a:hover {
+  border-bottom-color: var(--text-accent);
+  background: color-mix(in srgb, var(--text-accent) 8%, var(--background-primary));
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+/* 加载提示样式 */
+.twp-datalist-loading {
+  text-align: center;
+  padding: var(--twp-spacing-md);
+  background: var(--background-secondary);
+  border-radius: var(--twp-radius-sm);
+  margin: var(--twp-spacing-md) 0;
+  border: 1px solid var(--background-modifier-border);
+}
+
+.twp-datalist-loading p {
+  color: var(--text-muted);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* 卡片推理文字滚动条样式 */
+.twp-card-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.twp-card-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.twp-card-content::-webkit-scrollbar-thumb {
+  background: var(--background-modifier-border);
+  border-radius: 2px;
+}
+
+.twp-card-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 建议容器滚动条样式 */
+.twp-suggestion-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.twp-suggestion-container::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+  border-radius: 3px;
+}
+
+.twp-suggestion-container::-webkit-scrollbar-thumb {
+  background: var(--background-modifier-border);
+  border-radius: 3px;
+}
+
+.twp-suggestion-container::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .twp-modal {
+    padding: var(--twp-spacing-md);
+        max-width: 95vw;
+    margin: var(--twp-spacing-md);
+  }
+  
+  .twp-modal.compact {
+    max-width: 85vw;
+    min-width: 250px;
+    padding: var(--twp-spacing-sm);
+    }
+    
+    .twp-modal-title {
+    font-size: var(--twp-text-xl);
+    margin-bottom: var(--twp-spacing-md);
+    }
+    
+    .twp-modal-title.compact {
+    font-size: var(--twp-text-lg);
+    margin-bottom: var(--twp-spacing-sm);
+  }
+  
+  .twp-modal-footer {
+    flex-direction: column;
+    gap: var(--twp-spacing-sm);
+  }
+  
+  .twp-button {
+    width: 100%;
+    min-height: 44px;
+    padding: var(--twp-spacing-sm) var(--twp-spacing-md);
+  }
+  
+  .twp-card {
+    padding: var(--twp-spacing-sm);
+    margin-bottom: var(--twp-spacing-sm);
+        min-height: 70px;
+    }
+    
+    .twp-card-title {
+    font-size: var(--twp-text-base);
+    margin-bottom: var(--twp-spacing-sm);
+    }
+    
+    .twp-card-title.medium {
+        font-size: 0.95rem;
+    }
+    
+  .twp-card-content {
+        flex: 1;
+        margin: 0;
+        overflow-y: auto;
+        max-height: 4em;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 4px;
+    }
+    
+    .twp-template-option-button {
+    padding: var(--twp-spacing-sm);
+    gap: var(--twp-spacing-sm);
+    }
+    
+    .twp-template-option-icon {
+        font-size: 1.3rem;
+    }
+    
+    .twp-template-option-name {
+        font-size: 0.95rem;
+    }
+    
+  .twp-input {
+        padding: 0.7rem 1rem;
+        font-size: 1rem;
+        min-height: 44px;
+    }
+    
+    .twp-alias-item {
+        padding: 0.6rem;
+    gap: var(--twp-spacing-sm);
+    }
+    
+    .twp-alias-label {
+        font-size: 0.95rem;
+    }
+    
+  .twp-input-container {
+    margin-bottom: var(--twp-spacing-md);
+  }
+  
+  .twp-suggestion-container {
+    max-height: 150px;
+  }
+  
+  .twp-suggestion-item {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  /* 移动端输入框在输入框上方显示建议 */
+  .twp-input-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    }
+    
+    .twp-suggestion-container {
+    margin-bottom: 8px;
+    margin-top: 0;
+    box-shadow: var(--twp-shadow-md);
+  }
+
+  /* 移动端Modal虚拟键盘适配 - 整个Modal往上移 */
+  .twp-modal {
+    max-height: 90vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  
+  /* 当输入框获得焦点时，整个Modal往上移 - 通用规则 */
+  .twp-modal:has(.twp-input:focus) {
+    transform: translateY(-20vh); /* 整个Modal往上移20vh */
+    transition: transform 0.3s ease; /* 平滑过渡 */
+  }
+  
+  /* 当输入框失去焦点时，Modal回到原位置 - 通用规则 */
+  .twp-modal:not(:has(.twp-input:focus)) {
+    transform: translateY(0); /* 回到原位置 */
+    transition: transform 0.3s ease; /* 平滑过渡 */
+  }
+  
+  /* Modal容器也相应调整 - 通用规则 */
+  .modal:has(.twp-modal:has(.twp-input:focus)) {
+    align-items: flex-start !important; /* 改为顶部对齐 */
+    padding-top: 2vh !important; /* 添加顶部间距 */
+  }
+  
+  /* Modal容器回到原位置 - 通用规则 */
+  .modal:has(.twp-modal:not(:has(.twp-input:focus))) {
+    align-items: center !important; /* 恢复居中对齐 */
+    padding-top: 0 !important; /* 移除顶部间距 */
+  }
+
+  /* 移动端路径候选建议优化 */
+  .twp-path-suggestions {
+    max-height: 25vh; /* 稍微减少高度，为滚动留出更多空间 */
+    position: absolute;
+    bottom: 100%;
+    top: auto;
+    margin-bottom: 4px;
+    margin-top: 0;
+    overscroll-behavior: contain; /* 防止滚动链 */
+  }
+
+  .twp-path-suggestions .twp-suggestion-item {
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+  }
+  
+  /* 设置页面移动端优化 */
+  .twp-settings-container {
+    padding: var(--twp-spacing-md);
+    max-width: 100%;
+    margin-right: 20px;
+  }
+  
+  .twp-settings-section-container {
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+  
+  .twp-settings-section-header {
+    font-size: 1.2em;
+    margin: 18px 0 12px 0;
+    padding: 8px 0;
+  }
+  
+  .twp-settings-section-header .twp-icon {
+    font-size: 1.2em;
+  }
+  
+  .twp-form-label {
+    font-size: 1.01em;
+    font-weight: 500;
+  }
+  
+  .twp-form-group {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+  
+  .twp-form-description {
+    font-size: 0.88em;
+  }
+  
+  /* AI别名模态框移动端优化 */
+  .twp-alias-modal {
+    max-width: min(85vw, 500px);
+    width: 85vw;
+    min-width: 280px;
+  }
+  
+  .twp-alias-modal .twp-modal {
+    max-width: min(85vw, 500px);
+    max-height: none; /* 移除高度限制，确保内容完整显示 */
+  }
+  
+  .modal:has(.twp-alias-modal) .modal-content {
+    max-width: min(85vw, 500px) !important;
+  }
+  
+  /* AI别名Modal移动端微调 */
+  .twp-alias-modal .twp-card-content {
+    font-size: 1rem;
+  }
+  
+  /* 许可证模态框移动端优化 */
+  .twp-license-modal {
+    max-width: min(85vw, 500px);
+    width: 85vw;
+    min-width: 280px;
+  }
+  
+  .twp-license-modal .twp-modal {
+    padding: var(--twp-spacing-md);
+    max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+  /* 帮助设置项移动端优化 */
+  .twp-help-setting-item {
+    padding: 0.625rem 0.75rem;
+    margin: 0.375rem 0;
+    border-radius: 6px;
+  }
+  
+  .twp-help-setting-item .twp-form-label {
+    font-size: 1.05em;
+  }
+  
+  .twp-help-setting-item .twp-form-description {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+  
+  /* 状态标题移动端优化 */
+  .twp-form-label.status-title {
+    font-size: 1.1em;
+    padding: 0.375rem 0.625rem;
+  }
+  
+  .twp-form-description.status-description {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+  
+  /* 支持链接移动端优化 */
+  .twp-form-description.status-description a {
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  
+  /* 数据列表移动端优化 */
+  .twp-datalist-loading {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+  }
+  
+  .twp-datalist-loading p {
+    font-size: 0.9rem;
+  }
+}
+
+/* 小屏幕适配 */
+@media (max-width: 480px) {
+  .twp-modal {
+    padding: var(--twp-spacing-sm);
+        max-width: 98vw;
+    margin: var(--twp-spacing-sm);
+  }
+  
+  .twp-modal.compact {
+    max-width: 90vw;
+    min-width: 240px;
+    padding: 0.875rem;
+    }
+    
+    .twp-modal-title {
+    font-size: var(--twp-text-lg);
+    margin-bottom: var(--twp-spacing-sm);
+    }
+    
+    .twp-modal-title.compact {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+  }
+  
+  .twp-card {
+        padding: 0.6rem;
+        margin-bottom: 0.4rem;
+        min-height: 65px;
+    }
+    
+    .twp-card-title {
+        font-size: 0.95rem;
+        line-height: 1.2;
+  }
+  
+  .twp-card-content {
+        flex: 1;
+        margin: 0;
+        overflow-y: auto;
+        max-height: 3.6em;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 4px;
+    }
+    
+    .twp-template-option-button {
+        padding: 0.4rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.3rem;
+        min-height: 60px;
+    }
+    
+    .twp-template-option-icon {
+        font-size: 1.5rem;
+    }
+    
+    .twp-template-option-name {
+        font-size: 0.9rem;
+    }
+    
+  .twp-input {
+        padding: 0.65rem 0.85rem;
+        font-size: 16px; /* 防止iOS缩放 */
+        min-height: 48px;
+    }
+    
+    .twp-alias-item {
+        padding: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+        min-height: 50px;
+    }
+    
+    /* 移动端别名项中的遮挡条样式优化 - 图标和文字在一行 */
+    .twp-alias-item[style*="position: relative"] {
+        min-height: 50px; /* 保持正常高度 */
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child {
+        /* 遮挡条样式优化 - 水平布局 */
+        padding: 6px 10px;
+        min-height: 50px;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child > div:first-child {
+        /* 锁定图标样式 */
+        font-size: 1rem !important;
+        margin-bottom: 0 !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child > div:last-child {
+        /* 解锁文字样式 */
+        font-size: 0.7rem !important;
+        line-height: 1.1 !important;
+        text-align: center !important;
+        word-break: keep-all !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .twp-alias-checkbox {
+        align-self: flex-start;
+        width: 18px;
+        height: 18px;
+    }
+    
+    .twp-alias-label {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+    
+  .twp-button {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.95rem;
+    min-height: 44px;
+    }
+    
+    .twp-original-title {
+        padding: 0.6rem;
+        font-size: 1rem;
+        line-height: 1.3;
+    }
+    
+    .twp-ai-reasoning {
+        padding: 0.8rem;
+        margin: 12px 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .twp-suggested-note {
+        padding: 0.8rem;
+        margin: 8px 0;
+    }
+    
+    .twp-note-title {
+        font-size: 0.95rem;
+        line-height: 1.2;
+    }
+    
+    .twp-note-summary {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+    
+  /* 小屏幕推荐标签优化 */
+    .twp-recommendation-badge {
+        font-size: 0.8rem;
+        padding: 3px 6px;
+        top: -6px;
+        right: 8px;
+    }
+    
+    /* 小屏幕主要建议卡片顶部间距 */
+    .main-classification-card,
+    .main-suggestion-card {
+        margin-top: 10px;
+    }
+    
+  /* 小屏幕卡片推理文本优化 */
+  .twp-card-content {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+    
+  /* 小屏幕模态框子标题优化 */
+  .twp-modal-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+    
+  /* 小屏幕模态框描述优化 */
+  .twp-form-description {
+        font-size: 0.85rem;
+        line-height: 1.3;
+  }
+  
+  /* AI别名模态框小屏幕优化 */
+  .twp-alias-modal {
+        max-width: 90vw;
+        width: 90vw;
+        min-width: 260px;
+  }
+  
+  .twp-alias-modal .twp-modal {
+        max-width: 90vw;
+        max-height: none; /* 移除高度限制，确保内容完整显示 */
+  }
+  
+  .modal:has(.twp-alias-modal) .modal-content {
+        max-width: 90vw !important;
+  }
+  
+  /* AI别名Modal小屏幕微调 */
+  .twp-alias-modal .twp-card-content {
+        font-size: 0.9rem;
+    }
+  
+  /* 许可证模态框小屏幕优化 */
+  .twp-license-modal {
+        max-width: 90vw;
+        width: 90vw;
+        min-width: 260px;
+  }
+  
+  .twp-license-modal .twp-modal {
+        padding: 0.75rem;
+        max-height: 65vh;
+  }
+  
+  /* 设置页面小屏幕优化 */
+  .twp-settings-container {
+        padding: 1rem;
+        max-width: 100%;
+        margin-right: 1.25rem;
+    }
+    
+  .twp-settings-section-container {
+        padding: 0.875rem;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+    }
+    
+  .twp-form-label {
+        font-size: 1.01em;
+        font-weight: 500;
+    }
+    
+  .twp-form-group {
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.375rem;
+    }
+    
+  .twp-form-description {
+        font-size: 0.88em;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  .twp-card,
+  .twp-template-option-button,
+  .twp-alias-item {
+        min-height: 44px;
+    padding: 0.75rem;
+    }
+    
+    /* 超小屏幕别名项中的遮挡条样式优化 - 图标和文字在一行 */
+    .twp-alias-item[style*="position: relative"] {
+        min-height: 44px; /* 保持正常高度 */
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child {
+        /* 遮挡条样式优化 - 水平布局 */
+        padding: 4px 8px;
+        min-height: 44px;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child > div:first-child {
+        /* 锁定图标样式 */
+        font-size: 0.9rem !important;
+        margin-bottom: 0 !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .twp-alias-item[style*="position: relative"] > div:last-child > div:last-child {
+        /* 解锁文字样式 */
+        font-size: 0.65rem !important;
+        line-height: 1.0 !important;
+        text-align: center !important;
+        word-break: keep-all !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+    
+  .twp-button {
+        min-height: 44px;
+    padding: 0.8rem 1rem;
+  }
+  
+  .twp-alias-checkbox {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* 禁用悬停效果 */
+  .twp-card:hover,
+  .twp-template-option-button:hover,
+  .twp-alias-item:hover,
+  .twp-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* 增强点击反馈 */
+  .twp-card:active,
+  .twp-template-option-button:active,
+  .twp-alias-item:active,
+  .twp-button:active {
+    transform: scale(0.98);
+    transition: transform var(--twp-transition-fast);
+  }
+}
+
+/* 横屏优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .twp-modal {
+        max-height: 85vh;
+        padding: 0.5rem;
+    }
+    
+  .twp-modal-title {
+    font-size: var(--twp-text-lg);
+    margin-bottom: var(--twp-spacing-sm);
+  }
+  
+  .twp-card {
+        padding: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .twp-modal-footer {
+    flex-direction: row;
+    gap: var(--twp-spacing-sm);
+  }
+  
+  .twp-button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* 竖屏优化 */
+@media (max-width: 768px) and (orientation: portrait) {
+  .twp-modal {
+    max-height: 90vh;
+  }
+  
+  .twp-modal-footer {
+    flex-direction: column;
+  }
+}
