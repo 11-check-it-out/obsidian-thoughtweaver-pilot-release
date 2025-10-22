@@ -1,7 +1,7 @@
 {
-  "version": "1.6.6",
+  "version": "1.6.7",
   "buildType": "standard",
-  "buildDate": "2025-10-21T14:12:38.087Z",
-  "buildCommit": "0c469c14c9ad528d5acf96cb934d124e3f044547",
+  "buildDate": "2025-10-22T13:55:55.944Z",
+  "buildCommit": "77d2e2e4d97d4dca50712f233b6761c9e80442f9",
   "buildBranch": "develop"
 }
