@@ -76,6 +76,20 @@
   display: inline-block !important;
 }
 
+/* AI 拆分/建议类弹窗：限制宽高，避免铺满全屏 */
+.twp-suggestion-modal {
+  max-width: min(760px, 92vw);
+  width: 100%;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.modal:has(.twp-suggestion-modal) .modal-content {
+  width: min(780px, 94vw) !important;
+  max-height: 82vh;
+  overflow: hidden;
+}
+
 /* 确保关闭按钮始终可点击 */
 .modal:has(.twp-modal) .modal-close-button {
   z-index: 1001 !important;
